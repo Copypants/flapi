@@ -6,7 +6,7 @@ describe('initialization', function(){
 
   var flickrClient = new flickr({
     consumerKey     : process.env.FLICKR_KEY,
-    consumerSecret  : process.env.FLICKR_SECRET,
+    consumerSecret  : process.env.FLICKR_SECRET
   }, function(settings){
 
     it('should return all settings defined', function(){
