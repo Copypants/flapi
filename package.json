@@ -1,0 +1,13 @@
+{
+  "name": "flickr",
+  "version": "0.0.1",
+  "description": "A testable, dependency free Flickr API wrapper. Authenticates and makes web requests",
+  "keywords": [
+    "flickr",
+    "oauth"
+  ],
+  "devDependencies": {
+    "mocha": "~1.14.0",
+    "should": "~2.1.0"
+  }
+}
