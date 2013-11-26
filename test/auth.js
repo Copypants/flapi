@@ -1,30 +1,22 @@
-var should    = require('should');
-var flickr    = require('../index');
-var authUtils = require('./authUtils');
-var port      = 3001;
+var should        = require('should');
+var flickr        = require('../index');
+var authUtils     = require('./authUtils');
+var flickrClient  = require('./client').client;
+var port          = 3001;
 
 
 describe('authorization', function(){
 
 
-  before(function(){
-    this.flickrClient = new flickr({
-      oauth_consumer_key     : process.env.FLICKR_KEY,
-      oauth_consumer_secret  : process.env.FLICKR_SECRET
-    });
-  });
-
-
   it('should throw an error if no auth callback is defined', function(){
-    this.flickrClient.authApp.should.throw()
+    flickrClient.authApp.should.throw()
   });
 
 
   it('should reach out to flickr and receive an oauth_token and an oauth_token_secret', function(done){
-    var self = this;
     var callbackURL = 'http://localhost:' + port + '/auth_callback';
 
-    this.flickrClient.authApp(callbackURL, function(settings){
+    flickrClient.authApp(callbackURL, function(settings){
       settings.should.have.properties('oauth_callback_confirmed', 'oauth_token', 'oauth_token_secret');
       settings.oauth_callback_confirmed.should.equal('true');
 
@@ -36,7 +28,7 @@ describe('authorization', function(){
   it('should return a user authorization URL when prompted', function(){
     this.timeout(5000);
 
-    var url   = this.flickrClient.getUserAuthURL();
+    var url   = flickrClient.getUserAuthURL();
     var query = url.split('?')[1];
     var token = query.split('=')[1];
     token.should.not.equal('undefined');
@@ -49,10 +41,9 @@ describe('authorization', function(){
 
   it('should be able to fetch a user access token', function(done){
     this.timeout(30000);
-    var self = this;
 
     var matched = function(queryParams){
-      self.flickrClient.getUserAccessToken(queryParams.oauth_verifier, function(accessToken){
+      flickrClient.getUserAccessToken(queryParams.oauth_verifier, function(accessToken){
         accessToken.should.have.properties('oauth_token', 'oauth_token_secret', 'user_nsid', 'username');
         accessToken.oauth_token_secret.should.not.equal('undefined');
         accessToken.oauth_token_secret.should.not.equal('');
@@ -61,7 +52,7 @@ describe('authorization', function(){
     };
 
     authUtils.createRouteListener('/auth_callback', matched);
-    authUtils.simulateUserApproval(this.flickrClient.getUserAuthURL());
+    authUtils.simulateUserApproval(flickrClient.getUserAuthURL());
   });
 
 });
