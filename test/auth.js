@@ -54,8 +54,9 @@ describe('authorization', function(){
 
     var matched = function(queryParams){
       self.flickrClient.getUserAccessToken(queryParams.oauth_verifier, function(accessToken){
-        accessToken.should.not.equal('undefined');
-        accessToken.length.should.be.above(10);
+        accessToken.should.have.properties('oauth_token', 'oauth_token_secret', 'user_nsid', 'username');
+        accessToken.oauth_token_secret.should.not.equal('undefined');
+        accessToken.oauth_token_secret.should.not.equal('');
         done();
       });
     };
