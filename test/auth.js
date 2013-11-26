@@ -10,8 +10,8 @@ describe('authorization', function(){
 
   before(function(){
     this.flickrClient = new flickr({
-      consumerKey     : process.env.FLICKR_KEY,
-      consumerSecret  : process.env.FLICKR_SECRET
+      oauth_consumer_key     : process.env.FLICKR_KEY,
+      oauth_consumer_secret  : process.env.FLICKR_SECRET
     });
   });
 
