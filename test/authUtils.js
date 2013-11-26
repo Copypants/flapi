@@ -12,7 +12,7 @@ var port    = 3001;
 exports.simulateUserApproval = function(authURL){
   // Bounce around until we find the login page
   var findLogin = function(earl){
-    console.log('\nfinding the login page...');
+    console.log('\n      ...... finding the login page ......');
 
     request(earl, function(err, res, body){
       var redirectUrl = this.redirects[this.redirects.length-1].redirectUri;
@@ -23,7 +23,7 @@ exports.simulateUserApproval = function(authURL){
   // Fetch form data from DOM and login via the redirected
   // web page from flickr
   var login = function(body, earl){
-    console.log('attempting to login...');
+    console.log('      ...... attempting to login ......');
 
     getFormDataFromLogin(body, function(formData){
 
@@ -39,7 +39,7 @@ exports.simulateUserApproval = function(authURL){
   // Load the app authorization page, get the form data from
   // the DOM and move to approval
   var loadAppApprovalPage = function(earl){
-    console.log('loading the app approval page...');
+    console.log('      ...... loading the app approval page ......');
 
     request(earl, function(err, res, body){
       getFormDataFromAppApproval(body, approveApplication);
@@ -48,7 +48,7 @@ exports.simulateUserApproval = function(authURL){
 
   // Attempt to approve the application with
   var approveApplication = function(formAction, formData){
-    console.log('attempting to approve the app...');
+    console.log('      ...... attempting to approve the app ......');
 
     var earl = 'http://www.flickr.com' + formAction;
     request.post(earl, { form : formData });
