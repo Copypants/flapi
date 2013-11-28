@@ -3,6 +3,7 @@ var flickr        = require('../index');
 var authUtils     = require('./authUtils');
 var flickrClient  = require('./client').client;
 var port          = 3001;
+var userToken     = {};
 
 
 describe('authorization', function(){
@@ -47,6 +48,7 @@ describe('authorization', function(){
         accessToken.should.have.properties('oauth_token', 'oauth_token_secret', 'user_nsid', 'username');
         accessToken.oauth_token_secret.should.not.equal('undefined');
         accessToken.oauth_token_secret.should.not.equal('');
+        userToken = accessToken;
         done();
       });
     };
@@ -56,3 +58,8 @@ describe('authorization', function(){
   });
 
 });
+
+
+exports.getUserAccessToken = function(){
+  return userToken
+};
