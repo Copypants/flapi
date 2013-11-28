@@ -7,6 +7,11 @@ describe('api', function(){
   this.timeout(10000);
 
 
+  it('should throw an error when no api method is submitted', function(){
+    flickrClient.api.should.throw();
+  });
+
+
   it('should be able to fetch a list of the user\'s photos', function(done){
     accessToken   = require('./auth').getUserAccessToken();
     var urlParams = { user_id : accessToken.user_nsid };
@@ -29,7 +34,7 @@ describe('api', function(){
   });
 
 
-  /*it('should be able to fetch a single photo', function(done){
+  it('should be able to fetch a single photo', function(done){
 
   });
 
@@ -71,5 +76,5 @@ describe('api', function(){
 
   it('should be able to delete a set', function(done){
 
-  });*/
+  });
 });
