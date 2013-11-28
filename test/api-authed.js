@@ -11,20 +11,25 @@ describe('api', function(){
     accessToken   = require('./auth').getUserAccessToken();
     var urlParams = { user_id : accessToken.user_nsid };
 
-    flickrClient.api('flickr.people.getPhotos', urlParams, accessToken, function(data){
-      data.should.have.properties('photos', 'stat');
-      data.stat.should.equal('ok');
-      data.photos.should.have.property('photo');
+    flickrClient.api({
+      method      : 'flickr.people.getPhotos',
+      params      : urlParams,
+      accessToken : accessToken,
+      next        : function(data){
+        data.should.have.properties('photos', 'stat');
+        data.stat.should.equal('ok');
+        data.photos.should.have.property('photo');
 
-      var photoArray = data.photos.photo;
-      sharedData.randomPhotoId = photoArray[Math.floor(Math.random(0, photoArray.length) + 1)].id
+        var photoArray = data.photos.photo;
+        sharedData.randomPhotoId = photoArray[Math.floor(Math.random(0, photoArray.length) + 1)].id
 
-      done();
+        done();
+      }
     });
   });
 
 
-  it('should be able to fetch a single photo', function(done){
+  /*it('should be able to fetch a single photo', function(done){
 
   });
 
@@ -66,5 +71,5 @@ describe('api', function(){
 
   it('should be able to delete a set', function(done){
 
-  });
+  });*/
 });
