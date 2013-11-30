@@ -54,14 +54,15 @@ describe('authorized api', function(){
 
 
   it('should be able to create a photo', function(done){
-    var binaryImage = fs.readFileSync('test/image.jpg');
+    this.timeout(30000);
+    var binaryImage = fs.readFileSync('test/image.jpg', 'binary');
 
     flickrClient.api({
       method      : 'upload',
-      params      : { photo : binaryImage },
+      params      : { user_id : this.accessToken.user_nsid },
+      data        : { photo : binaryImage },
       accessToken : this.accessToken,
       next        : function(data){
-        console.log(data);
         data.should.have.properties('stat');
         data.stat.should.equal('ok');
         done();
