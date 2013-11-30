@@ -53,14 +53,13 @@ describe('authorized api', function(){
   });
 
 
-  it('should be able to create a photo', function(done){
+  it.skip('should be able to create a photo', function(done){
     this.timeout(30000);
     var binaryImage = fs.readFileSync('test/image.jpg', 'binary');
 
     flickrClient.api({
       method      : 'upload',
-      params      : { user_id : this.accessToken.user_nsid },
-      data        : { photo : binaryImage },
+      params      : { photo : binaryImage },
       accessToken : this.accessToken,
       next        : function(data){
         data.should.have.properties('stat');
@@ -71,8 +70,22 @@ describe('authorized api', function(){
   });
 
 
-  it.skip('should be able to add tags to a photo', function(done){
+  it('should be able to add tags to a photo', function(done){
+    var params = {
+      photo_id  : photoData.randomPhotoId,
+      tags      : 'oscar, meyer, weiner'
+    };
 
+    flickrClient.api({
+      method      : 'flickr.photos.addTags',
+      params      : params,
+      accessToken : this.accessToken,
+      next        : function(data){
+        data.should.have.properties('tags', 'stat');
+        data.stat.should.equal('ok');
+        done();
+      }
+    });
   });
 
 
