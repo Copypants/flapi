@@ -30,6 +30,7 @@ describe('authorized api', function(){
 
         var photoArray = data.photos.photo;
         photoData.randomPhotoId = photoArray[Math.floor(Math.random(0, photoArray.length) + 1)].id
+        photoData.newPhotoId = photoData.randomPhotoId;
 
         done();
       }
@@ -64,6 +65,7 @@ describe('authorized api', function(){
       next        : function(data){
         data.should.have.properties('stat');
         data.stat.should.equal('ok');
+        photoData.newPhotoId = data.photo.id;
         done();
       }
     });
@@ -72,7 +74,7 @@ describe('authorized api', function(){
 
   it('should be able to add tags to a photo', function(done){
     var params = {
-      photo_id  : photoData.randomPhotoId,
+      photo_id  : photoData.newPhotoId,
       tags      : 'oscar, meyer, weiner'
     };
 
@@ -83,38 +85,106 @@ describe('authorized api', function(){
       next        : function(data){
         data.should.have.properties('tags', 'stat');
         data.stat.should.equal('ok');
+        photoData.tags = data.tags.tag;
         done();
       }
     });
   });
 
 
-  it.skip('should be able to create a set', function(done){
+  it('should be able to create a set', function(done){
+    var params = {
+      title             : 'weiner mobiles',
+      description       : 'A collection of my most favorite photos of the oscar meyer weiner mobile',
+      primary_photo_id  : photoData.randomPhotoId
+    };
 
+    flickrClient.api({
+      method      : 'flickr.photosets.create',
+      params      : params,
+      accessToken : this.accessToken,
+      next        : function(data){
+        data.stat.should.equal('ok');
+        data.photoset.should.have.property('id');
+        photoData.photoSetId = data.photoset.id;
+        done();
+      }
+    });
   });
 
 
+  // Can't pass until a photo is successfully created
   it.skip('should be able to put a photo into a set', function(done){
+    var params = {
+      photo_id    : photoData.newPhotoId,
+      photoset_id : photoData.photoSetId
+    };
 
+    flickrClient.api({
+      method      : 'flickr.photosets.addPhoto',
+      params      : params,
+      accessToken : this.accessToken,
+      next        : function(data){
+        data.stat.should.equal('ok');
+        done();
+      }
+    });
   });
 
 
-  it.skip('should be able to remove tags from a photo', function(done){
-
+  it('should be able to remove tags from a photo', function(done){
+    flickrClient.api({
+      method      : 'flickr.photos.removeTag',
+      params      : { tag_id : photoData.tags[0].id },
+      accessToken : self.accessToken,
+      next        : function(data){
+        data.stat.should.equal('ok');
+        done();
+      }
+    });
   });
 
 
-  it.skip('should be able to remove a photo from a set', function(done){
+  it('should be able to remove a photo from a set', function(done){
+    var params = {
+      photo_id    : photoData.newPhotoId,
+      photoset_id : photoData.photoSetId
+    };
 
+    flickrClient.api({
+      method      : 'flickr.photosets.removePhoto',
+      params      : params,
+      accessToken : this.accessToken,
+      next        : function(data){
+        data.stat.should.equal('ok');
+        done();
+      }
+    });
   });
 
 
   it.skip('should be able to delete a photo', function(done){
-
+    flickrClient.api({
+      method      : 'flickr.photos.delete',
+      params      : { photo_id : photoData.newPhotoId },
+      accessToken : this.accessToken,
+      next        : function(data){
+        data.stat.should.equal('ok');
+        done();
+      }
+    });
   });
 
 
-  it.skip('should be able to delete a set', function(done){
-
+  it('should be able to delete a set', function(done){
+    flickrClient.api({
+      method      : 'flickr.photosets.delete',
+      params      : { photoset_id : photoData.photoSetId },
+      accessToken : this.accessToken,
+      next        : function(data){
+        data.stat.should.equal('ok');
+        done();
+      }
+    });
   });
 });
