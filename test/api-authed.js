@@ -1,10 +1,14 @@
+var fs            = require('fs');
 var should        = require('should');
 var flickrClient  = require('./client').client;
-var accessToken   = '';
-var sharedData    = {};
+var photoData     = {};
 
-describe('api', function(){
+describe('authorized api', function(){
   this.timeout(10000);
+
+  beforeEach(function(){
+    this.accessToken = require('./auth').getUserAccessToken();
+  });
 
 
   it('should throw an error when no api method is submitted', function(){
@@ -13,20 +17,19 @@ describe('api', function(){
 
 
   it('should be able to fetch a list of the user\'s photos', function(done){
-    accessToken   = require('./auth').getUserAccessToken();
-    var urlParams = { user_id : accessToken.user_nsid };
+    var urlParams = { user_id : this.accessToken.user_nsid };
 
     flickrClient.api({
       method      : 'flickr.people.getPhotos',
       params      : urlParams,
-      accessToken : accessToken,
+      accessToken : this.accessToken,
       next        : function(data){
         data.should.have.properties('photos', 'stat');
         data.stat.should.equal('ok');
         data.photos.should.have.property('photo');
 
         var photoArray = data.photos.photo;
-        sharedData.randomPhotoId = photoArray[Math.floor(Math.random(0, photoArray.length) + 1)].id
+        photoData.randomPhotoId = photoArray[Math.floor(Math.random(0, photoArray.length) + 1)].id
 
         done();
       }
@@ -35,46 +38,69 @@ describe('api', function(){
 
 
   it('should be able to fetch a single photo', function(done){
+    var urlParams = { photo_id : photoData.randomPhotoId };
 
+    flickrClient.api({
+      method      : 'flickr.photos.getInfo',
+      params      : urlParams,
+      accessToken : this.accessToken,
+      next        : function(data){
+        data.should.have.properties('photo', 'stat');
+        data.stat.should.equal('ok');
+        done();
+      }
+    });
   });
 
 
   it('should be able to create a photo', function(done){
+    var binaryImage = fs.readFileSync('test/image.jpg');
+
+    flickrClient.api({
+      method      : 'upload',
+      params      : { photo : binaryImage },
+      accessToken : this.accessToken,
+      next        : function(data){
+        console.log(data);
+        data.should.have.properties('stat');
+        data.stat.should.equal('ok');
+        done();
+      }
+    });
+  });
+
+
+  it.skip('should be able to add tags to a photo', function(done){
 
   });
 
 
-  it('should be able to add tags to a photo', function(done){
+  it.skip('should be able to create a set', function(done){
 
   });
 
 
-  it('should be able to create a set', function(done){
+  it.skip('should be able to put a photo into a set', function(done){
 
   });
 
 
-  it('should be able to put a photo into a set', function(done){
+  it.skip('should be able to remove tags from a photo', function(done){
 
   });
 
 
-  it('should be able to remove tags from a photo', function(done){
+  it.skip('should be able to remove a photo from a set', function(done){
 
   });
 
 
-  it('should be able to remove a photo from a set', function(done){
+  it.skip('should be able to delete a photo', function(done){
 
   });
 
 
-  it('should be able to delete a photo', function(done){
-
-  });
-
-
-  it('should be able to delete a set', function(done){
+  it.skip('should be able to delete a set', function(done){
 
   });
 });
