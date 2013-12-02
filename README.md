@@ -7,7 +7,7 @@ I know there are several existing node flickr modules, but... I wanted one with 
 * Fully tested
 * Oauth support
 * Dependency free in production
-* Example code (coming soon!!!)
+* Example code
 
 
 ### Quickstart (...quickish)
@@ -131,7 +131,7 @@ You only need to authorize your application once. If you're passing the token an
 
 
 ## Examples
-Using this module within express or any other node server framework should be fairly straight forward. Nonetheless, I'd like to provide several examples and use cases to make implementation as easy as possible. These are not yet complete but are on the immediate todo list.
+Using this module within express or any other node server framework should be fairly straight forward. I've provided a simple example within the [wiki](https://github.com/joelongstreet/flapi/wiki/Simple-Express-Example) of this project. One of the primary goals of this example is to demonstarte the importance of persisting the `oauth_token` and the `oauth_token_secret`.
 
 
 
