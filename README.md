@@ -86,6 +86,17 @@ According to the [flickr documentation](http://www.flickr.com/services/api/), yo
       perms                 : 'delete'
     });
 
+### Unauthorized API Requests
+Some of flickr's api methods don't require authorization (ex: `flickr.cameras.getBrandModels` and `flickr.interestingness.getList`). To use these without user authentication, simply omit the `accessToken` option from the api call:
+
+    flickrClient.api({
+      method : 'flickr.interestingness.getList',
+      params : { brand : 'apple' },
+      next   : function(data){
+        console.log('TADA!', data)
+      }
+    });
+
 
 ## Data Persistence 
 To keep users from having to authenticate every time your node application restarts, you'll need to persist your applications `oauth_token` and `oauth_token_secret`, as well as each user's individual `access_token`.
