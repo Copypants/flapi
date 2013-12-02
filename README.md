@@ -1,4 +1,3 @@
-
 # Node Flickr Module
 
 ## Feature Set
@@ -53,6 +52,7 @@ I know there are several existing node flickr modules, but... I wanted one with 
     });
 
 
+
 ## Making API requests
 Once you've authorized your application and have permissions from a user, you should be able to make api requests on their behalf.
 
@@ -86,6 +86,7 @@ According to the [flickr documentation](http://www.flickr.com/services/api/), yo
       perms                 : 'delete'
     });
 
+
 ### Unauthorized API Requests
 Some of flickr's api methods don't require authorization (ex: `flickr.cameras.getBrandModels` and `flickr.interestingness.getList`). To use these without user authentication, simply omit the `accessToken` option from the api call:
 
@@ -96,6 +97,21 @@ Some of flickr's api methods don't require authorization (ex: `flickr.cameras.ge
         console.log('TADA!', data)
       }
     });
+
+
+### Handling Errors
+API errors are passed directly to the next function. You can catch them by checking the stat property of the data returned.
+
+    flickrClient.api({
+      method : 'flickr.class.method',
+      params : {},
+      next   : function(data){
+        if(data.stat == 'fail'){
+          console.log(data.code);
+        }
+      }
+    });
+
 
 
 ## Data Persistence 
@@ -112,8 +128,12 @@ To instantiate the client with a token and secret, simply pass those properties 
 
 You only need to authorize your application once. If you're passing the token and secret, you can skip steps 2 and 3 described in the quickstart above.
 
+
+
 ## Examples
 Using this module within express or any other node server framework should be fairly straight forward. Nonetheless, I'd like to provide several examples and use cases to make implementation as easy as possible. These are not yet complete but are on the immediate todo list.
+
+
 
 ## Running the Tests
 To run the tests please make sure you've installed the project's dev dependencies and have the following environment variables set:
