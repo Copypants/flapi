@@ -1,9 +1,11 @@
 {
-  "name": "flickr",
-  "version": "0.0.1",
+  "name": "flapi",
+  "version": "0.8.0",
   "description": "A testable, dependency free Flickr API wrapper. Authenticates and makes web requests",
   "keywords": [
     "flickr",
+    "flapi",
+    "api",
     "oauth"
   ],
   "scripts": {
