@@ -1,4 +1,4 @@
-# Node Flickr Module
+# Flapi
 
 ## Feature Set
 I know there are several existing node flickr modules, but... I wanted one with the following feature set:
@@ -6,11 +6,11 @@ I know there are several existing node flickr modules, but... I wanted one with 
 * Simple api wrapper
 * Fully tested
 * Oauth support
-* Dependency free in production
+* Dependency free
 * Example code
 
 
-### Quickstart (...quickish)
+### Quick Start (...quickish)
 1 - Instantiate the flapi client:
 ``` javascript
 var flapiClient = new Flapi({
@@ -49,7 +49,7 @@ flapiClient.getUserAccessToken(function(accessToken){
 ``` javascript
 flapiClient.api({
   method      : 'flickr.people.getPhotos',
-  params      :  { user_id : this.accessToken.user_nsid },
+  params      :  { user_id : userAccessToken.user_nsid },
   accessToken : userAccessToken,
   next        : function(data){
       console.log('User Photos: ', data)
@@ -67,7 +67,7 @@ With the exception of photo uploading, all api methods match the [flickr documen
 ``` javascript
 flapiClient.api({
   method      : 'flickr.people.getPhotos',
-  params      :  { user_id : this.accessToken.user_nsid },
+  params      :  { user_id : userAccessToken.user_nsid },
   accessToken : userAccessToken,
   next        : function(data){
       console.log('User Photos: ', data)
@@ -82,7 +82,7 @@ flapiClient.api({
 
 
 ### Uploading Photos
-This module does not currently support photo uploads. The feature has been particurlaly problematic because flickr requires multi-part form uploads. This is on the immediate to do list and will be the next major feature developed.
+This module does not currently support photo uploads. The feature has been particularly problematic because flickr requires multi-part form uploads. This is on the immediate to do list and will be the next major feature developed.
 
 
 ### Setting Application permissions
@@ -146,7 +146,7 @@ You only need to authorize your application once. If you're passing the token an
 
 
 ## Examples
-Using this module within express or any other node server framework should be fairly straight forward. I've provided a simple example within the [wiki](https://github.com/joelongstreet/flapi/wiki/Simple-Express-Example) of this project. One of the primary goals of this example is to demonstarte the importance of persisting the `oauth_token` and the `oauth_token_secret`.
+Using this module within express or any other node server framework should be fairly straight forward. I've provided a simple example within the [wiki](https://github.com/joelongstreet/flapi/wiki/Simple-Express-Example) of this project. One of the primary goals of this example is to demonstrate the importance of persisting the `oauth_token` and the `oauth_token_secret`.
 
 
 
@@ -155,7 +155,7 @@ To run the tests please make sure you've installed the project's dev dependencie
 
 * `FLICKR_KEY` - Your flickr application's key
 * `FLICKR_SECRET` - Your flickr application's secret
-* `FLICKR_USERNAME` - Your flickr username, used to simulate a yahoo and flickr app authentication flow
+* `FLICKR_USERNAME` - Your flickr user name, used to simulate a yahoo and flickr app authentication flow
 * `FLICKR_PASSWORD` - Your flickr password, used to simulate a yahoo and flickr app authentication flow
 
 Calling `make test` from the root of the project will run all tests in the correct order.
