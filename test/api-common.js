@@ -1,7 +1,7 @@
 var should        = require('should');
 var flickrClient  = require('./client').client;
 
-describe('authorized api', function(){
+describe('common api', function(){
   this.timeout(10000);
 
   it('should be able to fetch a list of camera brand models', function(done){
