@@ -9,7 +9,7 @@
   },
   "main" : "./index",
   "license": "MIT",
-  "description": "A fully testable, dependency free, Flickr API wrapper. Authenticates and makes web requests",
+  "description": "A fully testable, dependency light, Flickr API wrapper. Authenticates and makes web requests",
   "keywords": [
     "flickr",
     "flapi",
@@ -27,6 +27,6 @@
     "request": "~2.27.0"
   },
   "dependencies" : {
-    "form-data": "~0.1.2"
+    "restler": "~2.0.1"
   }
 }

@@ -6,7 +6,7 @@ I know there are several existing node flickr modules, but... I wanted one with 
 * Simple api wrapper
 * Fully tested
 * Oauth support
-* Dependency free
+* Extra light dependency tree
 * Example code
 
 

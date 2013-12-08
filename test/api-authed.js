@@ -55,11 +55,10 @@ describe('authorized api', function(){
 
   it('should be able to create a photo', function(done){
     this.timeout(30000);
-    var readStream = fs.createReadStream('test/image.jpg');
 
     flickrClient.api({
       method      : 'upload',
-      params      : { photo : readStream },
+      params      : { photo : 'test/image.jpg' },
       accessToken : this.accessToken,
       next        : function(data){
         data.should.have.properties('stat');
