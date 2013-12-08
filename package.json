@@ -1,6 +1,6 @@
 {
   "name": "flapi",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "author": "Joe Longstreet",
   "homepage": "https://github.com/joelongstreet/flapi",
   "repository": { 
@@ -14,7 +14,9 @@
     "flickr",
     "flapi",
     "api",
-    "oauth"
+    "oauth",
+    "upload",
+    "photo"
   ],
   "scripts": {
     "test": "make test"
