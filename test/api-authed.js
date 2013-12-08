@@ -64,7 +64,7 @@ describe('authorized api', function(){
       next        : function(data){
         data.should.have.properties('stat');
         data.stat.should.equal('ok');
-        photoData.newPhotoId = data.id;
+        photoData.newPhotoId = data.photoid;
         done();
       }
     });
@@ -84,7 +84,6 @@ describe('authorized api', function(){
       next        : function(data){
         data.should.have.properties('tags', 'stat');
         data.stat.should.equal('ok');
-        photoData.tags = data.tags.tag;
         done();
       }
     });
@@ -131,13 +130,26 @@ describe('authorized api', function(){
 
 
   it('should be able to remove tags from a photo', function(done){
+    var self = this;
+
+    // When creating a tag, the full id isn't passed back... only the
+    // abbreviated form. Therefore, to fully test, we need to re-request
+    // the created photo to get the tag list
     flickrClient.api({
-      method      : 'flickr.photos.removeTag',
-      params      : { tag_id : photoData.tags[0].id },
+      method      : 'flickr.photos.getInfo',
+      params      : { photo_id : photoData.newPhotoId},
       accessToken : this.accessToken,
-      next        : function(data){
-        data.stat.should.equal('ok');
-        done();
+      next        : function(photoResponse){
+        var tagId = photoResponse.photo.tags.tag[0].id;
+        flickrClient.api({
+          method      : 'flickr.photos.removeTag',
+          params      : { tag_id : tagId },
+          accessToken : self.accessToken,
+          next        : function(data){
+            data.stat.should.equal('ok');
+            done();
+          }
+        });
       }
     });
   });
