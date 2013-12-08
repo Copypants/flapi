@@ -1,11 +1,11 @@
-var should        = require('should');
-var flickrClient  = require('./client').client;
+var should      = require('should');
+var flapiClient = require('./client').client;
 
 describe('common api', function(){
   this.timeout(10000);
 
   it('should be able to fetch a list of camera brand models', function(done){
-    flickrClient.api({
+    flapiClient.api({
       method : 'flickr.cameras.getBrandModels',
       params : { brand : 'apple' },
       next   : function(data){
@@ -19,7 +19,7 @@ describe('common api', function(){
 
 
   it('should be able to fetch a list of interesting photos', function(done){
-    flickrClient.api({
+    flapiClient.api({
       method : 'flickr.interestingness.getList',
       next   : function(data){
         data.should.have.properties('photos', 'stat');

@@ -13,6 +13,7 @@ I know there are several existing node flickr modules, but... I wanted one with 
 ### Quick Start (...quickish)
 1 - Instantiate the flapi client:
 ``` javascript
+var Flapi = require('flapi');
 var flapiClient = new Flapi({
   oauth_consumer_key    : FLICKR_KEY,
   oauth_consumer_secret : FLICKR_SECRET

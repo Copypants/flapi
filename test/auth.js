@@ -1,10 +1,9 @@
-var should        = require('should');
-var flickr        = require('../index');
-var authUtils     = require('./authUtils');
-var cli           = require('./cli');
-var flickrClient  = require('./client').client;
-var port          = 3001;
-var userToken     = {};
+var should      = require('should');
+var authUtils   = require('./authUtils');
+var cli         = require('./cli');
+var flapiClient = require('./client').client;
+var port        = 3001;
+var userToken   = {};
 
 
 if(cli.useAuth){
@@ -12,14 +11,14 @@ if(cli.useAuth){
   describe('authorization', function(){
 
     it('should throw an error if no auth callback is defined', function(){
-      flickrClient.authApp.should.throw()
+      flapiClient.authApp.should.throw()
     });
 
 
     it('should reach out to flickr and receive an oauth_token and an oauth_token_secret', function(done){
       var callbackURL = 'http://localhost:' + port + '/auth_callback';
 
-      flickrClient.authApp(callbackURL, function(settings){
+      flapiClient.authApp(callbackURL, function(settings){
         settings.should.have.properties('oauth_callback_confirmed', 'oauth_token', 'oauth_token_secret');
         settings.oauth_callback_confirmed.should.equal('true');
 
@@ -31,7 +30,7 @@ if(cli.useAuth){
     it('should return a user authorization URL when prompted', function(){
       this.timeout(5000);
 
-      var url   = flickrClient.getUserAuthURL();
+      var url   = flapiClient.getUserAuthURL();
       var query = url.split('?')[1];
       var token = query.split('=')[1];
       token.should.not.equal('undefined');
@@ -46,7 +45,7 @@ if(cli.useAuth){
       this.timeout(30000);
 
       var matched = function(queryParams){
-        flickrClient.getUserAccessToken(queryParams.oauth_verifier, function(accessToken){
+        flapiClient.getUserAccessToken(queryParams.oauth_verifier, function(accessToken){
           accessToken.should.have.properties('oauth_token', 'oauth_token_secret', 'user_nsid', 'username');
           accessToken.oauth_token_secret.should.not.equal('undefined');
           accessToken.oauth_token_secret.should.not.equal('');
@@ -56,7 +55,7 @@ if(cli.useAuth){
       };
 
       authUtils.createRouteListener('/auth_callback', matched);
-      authUtils.simulateUserApproval(flickrClient.getUserAuthURL());
+      authUtils.simulateUserApproval(flapiClient.getUserAuthURL());
     });
 
   });

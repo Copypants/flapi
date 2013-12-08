@@ -1,7 +1,7 @@
-var fs            = require('fs');
-var should        = require('should');
-var flickrClient  = require('./client').client;
-var photoData     = {};
+var fs          = require('fs');
+var should      = require('should');
+var flapiClient = require('./client').client;
+var photoData   = {};
 
 describe('authorized api', function(){
   this.timeout(10000);
@@ -12,14 +12,14 @@ describe('authorized api', function(){
 
 
   it('should throw an error when no api method is submitted', function(){
-    flickrClient.api.should.throw();
+    flapiClient.api.should.throw();
   });
 
 
   it('should be able to fetch a list of the user\'s photos', function(done){
     var urlParams = { user_id : this.accessToken.user_nsid };
 
-    flickrClient.api({
+    flapiClient.api({
       method      : 'flickr.people.getPhotos',
       params      : urlParams,
       accessToken : this.accessToken,
@@ -40,7 +40,7 @@ describe('authorized api', function(){
   it('should be able to fetch a single photo', function(done){
     var urlParams = { photo_id : photoData.randomPhotoId };
 
-    flickrClient.api({
+    flapiClient.api({
       method      : 'flickr.photos.getInfo',
       params      : urlParams,
       accessToken : this.accessToken,
@@ -56,7 +56,7 @@ describe('authorized api', function(){
   it('should be able to create a photo', function(done){
     this.timeout(30000);
 
-    flickrClient.api({
+    flapiClient.api({
       method      : 'upload',
       params      : { photo : 'test/image.jpg' },
       accessToken : this.accessToken,
@@ -76,7 +76,7 @@ describe('authorized api', function(){
       tags      : 'oscar, meyer, weiner'
     };
 
-    flickrClient.api({
+    flapiClient.api({
       method      : 'flickr.photos.addTags',
       params      : params,
       accessToken : this.accessToken,
@@ -96,7 +96,7 @@ describe('authorized api', function(){
       primary_photo_id  : photoData.randomPhotoId
     };
 
-    flickrClient.api({
+    flapiClient.api({
       method      : 'flickr.photosets.create',
       params      : params,
       accessToken : this.accessToken,
@@ -116,7 +116,7 @@ describe('authorized api', function(){
       photoset_id : photoData.photoSetId
     };
 
-    flickrClient.api({
+    flapiClient.api({
       method      : 'flickr.photosets.addPhoto',
       params      : params,
       accessToken : this.accessToken,
@@ -134,13 +134,13 @@ describe('authorized api', function(){
     // When creating a tag, the full id isn't passed back... only the
     // abbreviated form. Therefore, to fully test, we need to re-request
     // the created photo to get the tag list
-    flickrClient.api({
+    flapiClient.api({
       method      : 'flickr.photos.getInfo',
       params      : { photo_id : photoData.newPhotoId},
       accessToken : this.accessToken,
       next        : function(photoResponse){
         var tagId = photoResponse.photo.tags.tag[0].id;
-        flickrClient.api({
+        flapiClient.api({
           method      : 'flickr.photos.removeTag',
           params      : { tag_id : tagId },
           accessToken : self.accessToken,
@@ -160,7 +160,7 @@ describe('authorized api', function(){
       photoset_id : photoData.photoSetId
     };
 
-    flickrClient.api({
+    flapiClient.api({
       method      : 'flickr.photosets.removePhoto',
       params      : params,
       accessToken : this.accessToken,
@@ -173,7 +173,7 @@ describe('authorized api', function(){
 
 
   it('should be able to delete a photo', function(done){
-    flickrClient.api({
+    flapiClient.api({
       method      : 'flickr.photos.delete',
       params      : { photo_id : photoData.newPhotoId },
       accessToken : this.accessToken,
@@ -186,7 +186,7 @@ describe('authorized api', function(){
 
 
   it('should be able to delete a set', function(done){
-    flickrClient.api({
+    flapiClient.api({
       method      : 'flickr.photosets.delete',
       params      : { photoset_id : photoData.photoSetId },
       accessToken : this.accessToken,
