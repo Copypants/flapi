@@ -6,7 +6,7 @@ I know there are several existing node flickr modules, but... I wanted one with 
 * Simple api wrapper
 * Fully tested
 * Oauth support
-* Dependency free
+* Extra light dependency tree
 * Example code
 
 
@@ -82,7 +82,19 @@ flapiClient.api({
 
 
 ### Uploading Photos
-This module does not currently support photo uploads. The feature has been particularly problematic because flickr requires multi-part form uploads. This is on the immediate to do list and will be the next major feature developed.
+To upload a photo, use the method `upload` and pass a `readStream` image as param. Example:
+
+``` javascript
+var image = fs.createReadStream('test/image.jpg');
+flapiClient.api({
+  method      : 'upload',
+  params      :  { photo : image },
+  accessToken : userAccessToken,
+  next        : function(data){
+      console.log('New Photo: ', data)
+  }
+});
+```
 
 
 ### Setting Application permissions

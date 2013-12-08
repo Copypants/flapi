@@ -30,7 +30,6 @@ describe('authorized api', function(){
 
         var photoArray = data.photos.photo;
         photoData.randomPhotoId = photoArray[Math.floor(Math.random(0, photoArray.length) + 1)].id
-        photoData.newPhotoId = photoData.randomPhotoId;
 
         done();
       }
@@ -54,18 +53,17 @@ describe('authorized api', function(){
   });
 
 
-  it.skip('should be able to create a photo', function(done){
+  it('should be able to create a photo', function(done){
     this.timeout(30000);
-    var binaryImage = fs.readFileSync('test/image.jpg', 'binary');
 
     flickrClient.api({
       method      : 'upload',
-      params      : { photo : binaryImage },
+      params      : { photo : 'test/image.jpg' },
       accessToken : this.accessToken,
       next        : function(data){
         data.should.have.properties('stat');
         data.stat.should.equal('ok');
-        photoData.newPhotoId = data.photo.id;
+        photoData.newPhotoId = data.photoid;
         done();
       }
     });
@@ -85,7 +83,6 @@ describe('authorized api', function(){
       next        : function(data){
         data.should.have.properties('tags', 'stat');
         data.stat.should.equal('ok');
-        photoData.tags = data.tags.tag;
         done();
       }
     });
@@ -113,8 +110,7 @@ describe('authorized api', function(){
   });
 
 
-  // Can't pass until a photo is successfully created
-  it.skip('should be able to put a photo into a set', function(done){
+  it('should be able to put a photo into a set', function(done){
     var params = {
       photo_id    : photoData.newPhotoId,
       photoset_id : photoData.photoSetId
@@ -133,13 +129,26 @@ describe('authorized api', function(){
 
 
   it('should be able to remove tags from a photo', function(done){
+    var self = this;
+
+    // When creating a tag, the full id isn't passed back... only the
+    // abbreviated form. Therefore, to fully test, we need to re-request
+    // the created photo to get the tag list
     flickrClient.api({
-      method      : 'flickr.photos.removeTag',
-      params      : { tag_id : photoData.tags[0].id },
-      accessToken : self.accessToken,
-      next        : function(data){
-        data.stat.should.equal('ok');
-        done();
+      method      : 'flickr.photos.getInfo',
+      params      : { photo_id : photoData.newPhotoId},
+      accessToken : this.accessToken,
+      next        : function(photoResponse){
+        var tagId = photoResponse.photo.tags.tag[0].id;
+        flickrClient.api({
+          method      : 'flickr.photos.removeTag',
+          params      : { tag_id : tagId },
+          accessToken : self.accessToken,
+          next        : function(data){
+            data.stat.should.equal('ok');
+            done();
+          }
+        });
       }
     });
   });
@@ -163,7 +172,7 @@ describe('authorized api', function(){
   });
 
 
-  it.skip('should be able to delete a photo', function(done){
+  it('should be able to delete a photo', function(done){
     flickrClient.api({
       method      : 'flickr.photos.delete',
       params      : { photo_id : photoData.newPhotoId },
