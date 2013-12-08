@@ -54,7 +54,7 @@ describe('authorized api', function(){
   });
 
 
-  it.skip('should be able to create a photo', function(done){
+  it('should be able to create a photo', function(done){
     this.timeout(30000);
     var binaryImage = fs.readFileSync('test/image.jpg', 'binary');
 

@@ -25,5 +25,9 @@
     "should": "~2.1.0",
     "jsdom": "~0.8.8",
     "request": "~2.27.0"
+  },
+  "dependencies" : {
+    "form-data": "~0.1.2",
+    "xml2json": "~0.3.2"
   }
 }
