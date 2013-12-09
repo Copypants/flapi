@@ -1,6 +1,6 @@
 # Flapi
 
-https://travis-ci.org/joelongstreet/flapi.png
+[![Build Status](https://travis-ci.org/joelongstreet/flapi.png)](https://travis-ci.org/joelongstreet/flapi)
 
 ## Feature Set
 I know there are several existing node flickr modules, but... I thought the community could use one with the following features:
