@@ -1,6 +1,6 @@
 {
   "name": "flapi",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "author": "Joe Longstreet",
   "homepage": "https://github.com/joelongstreet/flapi",
   "repository": { 
@@ -21,7 +21,7 @@
   "scripts": {
     "test": "make test"
   },
-  "engines": {"node":">=0.4.0"},
+  "engines": {"node":">=0.8.0"},
   "devDependencies": {
     "mocha": "~1.14.0",
     "should": "~2.1.0",

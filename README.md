@@ -1,5 +1,7 @@
 # Flapi
 
+https://travis-ci.org/joelongstreet/flapi.png
+
 ## Feature Set
 I know there are several existing node flickr modules, but... I thought the community could use one with the following features:
 
