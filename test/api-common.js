@@ -2,7 +2,7 @@ var should      = require('should');
 var flapiClient = require('./client').client;
 
 describe('common api', function(){
-  this.timeout(10000);
+  this.timeout(30000);
 
   it('should be able to fetch a list of camera brand models', function(done){
     flapiClient.api({

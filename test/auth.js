@@ -9,6 +9,7 @@ var userToken   = {};
 if(cli.useAuth){
 
   describe('authorization', function(){
+    this.timeout(30000);
 
     it('should throw an error if no auth callback is defined', function(){
       flapiClient.authApp.should.throw()
@@ -28,8 +29,6 @@ if(cli.useAuth){
 
 
     it('should return a user authorization URL when prompted', function(){
-      this.timeout(5000);
-
       var url   = flapiClient.getUserAuthURL();
       var query = url.split('?')[1];
       var token = query.split('=')[1];
@@ -42,8 +41,6 @@ if(cli.useAuth){
 
 
     it('should be able to fetch a user access token', function(done){
-      this.timeout(30000);
-
       var matched = function(queryParams){
         flapiClient.getUserAccessToken(queryParams.oauth_verifier, function(accessToken){
           accessToken.should.have.properties('oauth_token', 'oauth_token_secret', 'user_nsid', 'username');

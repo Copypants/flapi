@@ -4,7 +4,7 @@ var flapiClient = require('./client').client;
 var photoData   = {};
 
 describe('authorized api', function(){
-  this.timeout(10000);
+  this.timeout(30000);
 
   beforeEach(function(){
     this.accessToken = require('./auth').getUserAccessToken();
@@ -54,8 +54,6 @@ describe('authorized api', function(){
 
 
   it('should be able to create a photo', function(done){
-    this.timeout(30000);
-
     flapiClient.api({
       method      : 'upload',
       params      : { photo : 'test/image.jpg' },
