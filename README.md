@@ -172,12 +172,12 @@ To run the tests, please make sure you've installed the project's dev dependenci
 * `FLICKR_PASSWORD` - Your flickr password, used to simulate a yahoo and flickr app authentication flow
 
 ### With Auth
-Calling `make test-with-auth` from the root of the project will run all tests in the correct order.
+Calling `make test` from the root of the project will run all tests in the correct order.
 
 On occasion, the numerous flickr redirects required to simulate authentication will fail. This causes every subsequent test to then fail. If you're running tests and experience this oddity, just run again.
 
-### Standard 
-You can skip the auth steps and still test all the API methods by running `make test`. For this to work, you'll also need the following environment variables set:
+### Without Auth
+You can skip the auth steps and still test all the API methods by running `make test-without-auth`. For this to work, you'll also need the following environment variables set:
 
 * `FLICKR_OAUTH_USER_TOKEN` - Can retrieve this from the standard auth above.
 * `FLICKR_OAUTH_USER_SECRET` - Can retrieve this from the standard auth above.
