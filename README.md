@@ -1,6 +1,9 @@
 # Flapi
 
 [![Build Status](https://travis-ci.org/joelongstreet/flapi.png)](https://travis-ci.org/joelongstreet/flapi)
+[![NPM version](https://badge.fury.io/js/flapi.png)](http://badge.fury.io/js/flapi)
+
+[![NPM](https://nodei.co/npm/flapi.png?mini=true)](https://nodei.co/npm/flapi/)
 
 ## Feature Set
 I know there are several existing node flickr modules, but... I thought the community could use one with the following features:
