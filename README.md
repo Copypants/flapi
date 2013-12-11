@@ -139,6 +139,18 @@ flapiClient.api({
 ```
 
 
+### Other Notes
+If you're looking to have a client make the http request, delay the request for some reason, or want to handle the request on your own... you can prevent the call to flickr by passing the option `preventCall : true`. Regardless of this option, the full url of the intended request will always be passed back.
+``` javascript
+  var flickrAPIurl = flapiClient.api({
+    method      : 'flickr.people.getPhotos',
+    params      : { user_id : this.accessToken.user_nsid },
+    accessToken : this.accessToken,
+    preventCall : true
+  });
+```
+
+
 
 ## Data Persistence 
 To keep users from having to authenticate every time your node application restarts, you'll need to persist your application's `oauth_token` and `oauth_token_secret` as well as each user's individual `access_token`.
