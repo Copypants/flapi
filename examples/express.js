@@ -36,7 +36,7 @@ settings.on('load', function(){
     oauth_consumer_key    : process.env.FLICKR_KEY,
     oauth_consumer_secret : process.env.FLICKR_SECRET,
     perms                 : 'delete'
-  }
+  };
 
   var oauthOpts = settings.get('oauth');
   if(oauthOpts){
@@ -67,9 +67,9 @@ app.get('/auth_callback', function(req, res){
     flapiClient.getUserAccessToken(req.query.oauth_verifier, function(accessToken){
       users.set(accessToken.user_nsid, accessToken);
 
-      var message = 'Succesfully Authorized. Visit - \
-http://localhost:3000/user/' + accessToken.user_nsid + '/photos to see\
-a full listing of your photos.';
+      var message = ['Succesfully Authorized. Visit,',
+'http://localhost:3000/user/' + accessToken.user_nsid + '/photos to see',
+'a full listing of your photos'].join('');
       res.send(message);
     });
   } else {
