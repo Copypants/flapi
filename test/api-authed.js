@@ -1,5 +1,6 @@
 var fs          = require('fs');
 var should      = require('should');
+var queryString = require('querystring');
 var flapiClient = require('./client').client;
 var photoData   = {};
 
@@ -16,6 +17,20 @@ describe('authorized api', function(){
   });
 
 
+  it('should return a flickr request url', function(done){
+    var url = flapiClient.api({
+      method      : 'flickr.people.getPhotos',
+      params      : { user_id : this.accessToken.user_nsid },
+      accessToken : this.accessToken,
+      preventCall : true
+    });
+
+    var queryParams = queryString.parse(url);
+    queryParams.should.have.properties('oauth_signature', 'oauth_timestamp', 'method');
+    done();
+  });
+
+
   it('should be able to fetch a list of the user\'s photos', function(done){
     var urlParams = { user_id : this.accessToken.user_nsid };
 
@@ -29,7 +44,7 @@ describe('authorized api', function(){
         data.photos.should.have.property('photo');
 
         var photoArray = data.photos.photo;
-        photoData.randomPhotoId = photoArray[Math.floor(Math.random(0, photoArray.length) + 1)].id
+        photoData.randomPhotoId = photoArray[Math.floor(Math.random(0, photoArray.length) + 1)].id;
 
         done();
       }
