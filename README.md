@@ -10,8 +10,38 @@ I know there are several existing node flickr modules, but... I thought the comm
 * Example code
 
 
-### Quick Start (...quickish)
-1 - Instantiate the flapi client:
+### Quick Start
+* `npm install flapi`
+* Create a flickr app - [https://www.flickr.com/services/apps/create/noncommercial/](https://www.flickr.com/services/apps/create/noncommercial/)
+* The key and secret you receive on the next page are your oauth_consumer_key and oauth_consumer_secret
+* `touch app.js`
+
+
+#### With no user auth (public requests only)
+``` javascript
+var Flapi = require('flapi');
+var flapiClient = new Flapi({
+  oauth_consumer_key    : FLICKR_KEY,
+  oauth_consumer_secret : FLICKR_SECRET
+});
+
+
+flapiClient.api({
+  method : 'flickr.cameras.getBrandModels',
+  params : { brand : 'apple'},
+  next : function(data){
+    if(data.cameras && data.cameras.camera){
+      data.cameras.camera.forEach(function(camera){
+        console.log(camera.name);
+      });
+    }
+  }
+});
+```
+
+
+#### With user auth (user approved api requests)
+Instantiate the flapi client:
 ``` javascript
 var Flapi = require('flapi');
 var flapiClient = new Flapi({
@@ -20,7 +50,7 @@ var flapiClient = new Flapi({
 });
 ```
 
-2 - Listen for an http request from flickr and respond
+Prepare to listen for an http request from flickr and respond with anything:
 ``` javascript
 var server = http.createServer(function(req, res){
   res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -28,17 +58,17 @@ var server = http.createServer(function(req, res){
 });
 ```
 
-3 - Authenticate your application
+Authenticate your application:
 ``` javascript
 flapiClient.authApp('http://localhost:3000/auth_callback');
 ```
 
-4 - When application authentication is finished, prompt users to authenticate with your app by giving them the app auth url.
+Prompt users to authenticate with your app by giving them the app auth url:
 ``` javascript
 var url = flapiClient.getUserAuthURL();
 ```
 
-5 - Get the user's access token to make individual requests.
+Get the user's access token to make individual requests:
 ``` javascript
 var userAccessToken;
 flapiClient.getUserAccessToken(function(accessToken){
@@ -46,7 +76,7 @@ flapiClient.getUserAccessToken(function(accessToken){
 });
 ```
 
-6 - Make requests on the user's behalf
+Make requests on the user's behalf:
 ``` javascript
 flapiClient.api({
   method      : 'flickr.people.getPhotos',
