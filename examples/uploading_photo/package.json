@@ -1,0 +1,9 @@
+{
+	"name": "projectname",
+	"description": "description",
+	"version": "0.0.1",
+	"dependencies": {
+		"flapi": "*",
+		"open": "*"
+	}
+}

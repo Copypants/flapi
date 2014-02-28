@@ -1,0 +1,1 @@
+A simple example illustrating uploading a photo to Flickr.

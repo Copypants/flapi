@@ -119,7 +119,10 @@ To upload a photo, use the method `upload` and pass the file path as param. Exam
 flapiClient.api({
   method      : 'upload',
   params      :  { photo : 'test/image.jpg' },
-  accessToken : userAccessToken,
+  accessToken : { 
+    oauth_token: [access token returned after successful authorization],
+    oauth_token_secret: [access token secret returned after successful authorization]
+  },
   next        : function(data){
       console.log('New Photo: ', data)
   }
