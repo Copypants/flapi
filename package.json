@@ -21,8 +21,13 @@
   "scripts": {
     "test": "make test"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "^5.1.1",
+    "should": "^13.2.1"
+  },
   "dependencies": {
+    "jsdom": "^11.10.0",
+    "request": "^2.85.0",
     "restler": "^3.4.0"
   }
 }

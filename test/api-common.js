@@ -8,12 +8,12 @@ describe('common api', function(){
     flapiClient.api({
       method : 'flickr.cameras.getBrandModels',
       params : { brand : 'apple' },
-      next   : function(data){
-        data.should.have.properties('cameras', 'stat');
-        data.stat.should.equal('ok');
-        data.cameras.should.have.property('camera');
-        done();
-      }
+    }, function(err, data) {
+      should.not.exist(err);
+      data.stat.should.equal('ok');
+      data.should.have.properties('cameras', 'stat');
+      data.cameras.should.have.property('camera');
+      done();
     });
   });
 
@@ -21,12 +21,12 @@ describe('common api', function(){
   it('should be able to fetch a list of interesting photos', function(done){
     flapiClient.api({
       method : 'flickr.interestingness.getList',
-      next   : function(data){
-        data.should.have.properties('photos', 'stat');
-        data.stat.should.equal('ok');
-        data.photos.should.have.property('photo');
-        done();
-      }
+    }, function(err, data) {
+      should.not.exist(err);
+      data.stat.should.equal('ok');
+      data.should.have.properties('photos', 'stat');
+      data.photos.should.have.property('photo');
+      done();
     });
   });
 

@@ -19,7 +19,8 @@ if(cli.useAuth){
     it('should reach out to flickr and receive an oauth_token and an oauth_token_secret', function(done){
       var callbackURL = 'http://localhost:' + port + '/auth_callback';
 
-      flapiClient.authApp(callbackURL, function(settings){
+      flapiClient.authApp(callbackURL, function(err, settings){
+        should.not.exist(err);
         settings.should.have.properties('oauth_callback_confirmed', 'oauth_token', 'oauth_token_secret');
         settings.oauth_callback_confirmed.should.equal('true');
 
@@ -42,7 +43,8 @@ if(cli.useAuth){
 
     it('should be able to fetch a user access token', function(done){
       var matched = function(queryParams){
-        flapiClient.getUserAccessToken(queryParams.oauth_verifier, function(accessToken){
+        flapiClient.getUserAccessToken(queryParams.oauth_verifier, function(err, accessToken){
+          should.not.exist(err);
           accessToken.should.have.properties('oauth_token', 'oauth_token_secret', 'user_nsid', 'username');
           accessToken.oauth_token_secret.should.not.equal('undefined');
           accessToken.oauth_token_secret.should.not.equal('');

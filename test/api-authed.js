@@ -25,6 +25,8 @@ describe('authorized api', function(){
       preventCall : true
     });
 
+    should.exist(url);
+    
     var queryParams = queryString.parse(url);
     queryParams.should.have.properties('oauth_signature', 'oauth_timestamp', 'method');
     done();
@@ -38,16 +40,17 @@ describe('authorized api', function(){
       method      : 'flickr.people.getPhotos',
       params      : urlParams,
       accessToken : this.accessToken,
-      next        : function(data){
-        data.should.have.properties('photos', 'stat');
-        data.stat.should.equal('ok');
-        data.photos.should.have.property('photo');
+    }, function(err, data) {
+      should.not.exist(err);
 
-        var photoArray = data.photos.photo;
-        photoData.randomPhotoId = photoArray[Math.floor(Math.random(0, photoArray.length) + 1)].id;
+      data.stat.should.equal('ok');
+      data.should.have.properties('photos', 'stat');
+      data.photos.should.have.property('photo');
 
-        done();
-      }
+      var photoArray = data.photos.photo;
+      photoData.randomPhotoId = photoArray[Math.floor(Math.random(0, photoArray.length) + 1)].id;
+
+      done();
     });
   });
 
@@ -59,11 +62,12 @@ describe('authorized api', function(){
       method      : 'flickr.photos.getInfo',
       params      : urlParams,
       accessToken : this.accessToken,
-      next        : function(data){
-        data.should.have.properties('photo', 'stat');
-        data.stat.should.equal('ok');
-        done();
-      }
+    }, function(err, data) {
+      should.not.exist(err);
+
+      data.stat.should.equal('ok');
+      data.should.have.properties('photo', 'stat');
+      done();
     });
   });
 
@@ -73,12 +77,13 @@ describe('authorized api', function(){
       method      : 'upload',
       params      : { photo : 'test/image.jpg' },
       accessToken : this.accessToken,
-      next        : function(data){
-        data.should.have.properties('stat');
-        data.stat.should.equal('ok');
-        photoData.newPhotoId = data.photoid;
-        done();
-      }
+    }, function(err, data) {
+      should.not.exist(err);
+
+      data.stat.should.equal('ok');
+      data.should.have.properties('stat');
+      photoData.newPhotoId = data.photoid;
+      done();
     });
   });
 
@@ -93,11 +98,12 @@ describe('authorized api', function(){
       method      : 'flickr.photos.addTags',
       params      : params,
       accessToken : this.accessToken,
-      next        : function(data){
-        data.should.have.properties('tags', 'stat');
-        data.stat.should.equal('ok');
-        done();
-      }
+    }, function(err, data) {
+      should.not.exist(err);
+
+      data.stat.should.equal('ok');
+      data.should.have.properties('tags', 'stat');
+      done();
     });
   });
 
@@ -113,12 +119,13 @@ describe('authorized api', function(){
       method      : 'flickr.photosets.create',
       params      : params,
       accessToken : this.accessToken,
-      next        : function(data){
-        data.stat.should.equal('ok');
-        data.photoset.should.have.property('id');
-        photoData.photoSetId = data.photoset.id;
-        done();
-      }
+    }, function(err, data) {
+      should.not.exist(err);
+
+      data.stat.should.equal('ok');
+      data.photoset.should.have.property('id');
+      photoData.photoSetId = data.photoset.id;
+      done();
     });
   });
 
@@ -133,10 +140,10 @@ describe('authorized api', function(){
       method      : 'flickr.photosets.addPhoto',
       params      : params,
       accessToken : this.accessToken,
-      next        : function(data){
-        data.stat.should.equal('ok');
-        done();
-      }
+    }, function(err, data) {
+      should.not.exist(err);
+      data.stat.should.equal('ok');
+      done();
     });
   });
 
@@ -151,18 +158,18 @@ describe('authorized api', function(){
       method      : 'flickr.photos.getInfo',
       params      : { photo_id : photoData.newPhotoId},
       accessToken : this.accessToken,
-      next        : function(photoResponse){
-        var tagId = photoResponse.photo.tags.tag[0].id;
-        flapiClient.api({
-          method      : 'flickr.photos.removeTag',
-          params      : { tag_id : tagId },
-          accessToken : self.accessToken,
-          next        : function(data){
-            data.stat.should.equal('ok');
-            done();
-          }
-        });
-      }
+    }, function(err, photoResponse) {
+      should.not.exist(err);
+      var tagId = photoResponse.photo.tags.tag[0].id;
+      flapiClient.api({
+        method      : 'flickr.photos.removeTag',
+        params      : { tag_id : tagId },
+        accessToken : self.accessToken,
+      }, function(err, data) {
+        should.not.exist(err);
+        data.stat.should.equal('ok');
+        done();
+      });
     });
   });
 
@@ -177,10 +184,10 @@ describe('authorized api', function(){
       method      : 'flickr.photosets.removePhoto',
       params      : params,
       accessToken : this.accessToken,
-      next        : function(data){
-        data.stat.should.equal('ok');
-        done();
-      }
+    }, function(err, data) {
+      should.not.exist(err);
+      data.stat.should.equal('ok');
+      done();
     });
   });
 
@@ -190,10 +197,10 @@ describe('authorized api', function(){
       method      : 'flickr.photos.delete',
       params      : { photo_id : photoData.newPhotoId },
       accessToken : this.accessToken,
-      next        : function(data){
-        data.stat.should.equal('ok');
-        done();
-      }
+    }, function(err, data) {
+      should.not.exist(err);
+      data.stat.should.equal('ok');
+      done();
     });
   });
 
@@ -203,10 +210,10 @@ describe('authorized api', function(){
       method      : 'flickr.photosets.delete',
       params      : { photoset_id : photoData.photoSetId },
       accessToken : this.accessToken,
-      next        : function(data){
-        data.stat.should.equal('ok');
-        done();
-      }
+    }, function(err, data) {
+      should.not.exist(err);
+      data.stat.should.equal('ok');
+      done();
     });
   });
 });
